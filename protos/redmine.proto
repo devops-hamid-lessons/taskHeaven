@@ -1,0 +1,34 @@
+// python3 -m grpc_tools.protoc -I./protos --python_out=. --grpc_python_out=. ./protos/redmine.proto
+
+syntax = "proto3";
+package package.name;
+
+service redmine {
+  rpc insertIssueRPC(insertIssueRequest) returns (response) {}
+}
+
+enum operationResults {
+  FAILURE = 0;
+  SUCCESS = 1;
+}
+
+message issueObject {
+  string project_name = 1;
+  string issue_title = 2;
+  string issue_description = 3;
+  string issue_priority = 4;
+}
+message serverCredential {
+  string redmine_username = 1;
+  string redmine_password = 2;
+  string redmine_server_ip = 3;
+}
+message insertIssueRequest {
+  serverCredential credential = 1;
+  issueObject issue = 2;
+}
+
+message response {
+  operationResults operation_result = 1;
+  string operation_message = 2;
+}
